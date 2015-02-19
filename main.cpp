@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdlib>
 #define HV 999999999
 
 using namespace std;
@@ -9,6 +10,7 @@ int arrep(int ns);
 int TA();
 int IA();
 void calcularImprimirResultados(int SPS, int STA, int PER, int ARR);
+float ran();
 
 int main()
 { 
@@ -110,14 +112,19 @@ int arrep(int ns) {
     return 0;
 }
 int TA() {
-    //function-stub
-    return 1;
+    float R = ran();
+    return (20 - 15*R);
 }
 int IA() {
-    //function-stub
-    return 1;
+    float R = ran();
+    return (30 - 25*R);
 }
+
 void calcularImprimirResultados(int SPS, int STA, int PER, int ARR){
     //function-stub
     cout << "Resultados: " << SPS << " " << STA << " " << PER << " " << ARR << endl;
+}
+
+float ran(){
+    return static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
 }
