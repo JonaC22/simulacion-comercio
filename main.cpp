@@ -9,7 +9,7 @@ int BuscarPuesto(int* TPS, int N);
 int arrep(int ns);
 int TA();
 int IA();
-void calcularImprimirResultados(int SPS, int STA, int PER, int ARR);
+void calcularImprimirResultados(int SPS, int STA, int PER, int ARR, int T);
 float ran();
 
 int main()
@@ -94,7 +94,7 @@ int main()
 
     cout << "Fin de simulacion" << endl;
 
-    calcularImprimirResultados(SPS, STA, PER, ARR);
+    calcularImprimirResultados(SPS, STA, PER, ARR, T);
 
 }
 
@@ -120,9 +120,16 @@ int IA() {
     return (30 - 25*R);
 }
 
-void calcularImprimirResultados(int SPS, int STA, int PER, int ARR){
-    //function-stub
-    cout << "Resultados: " << SPS << " " << STA << " " << PER << " " << ARR << endl;
+void calcularImprimirResultados(int SPS, int STA, int PER, int ARR, int T){
+
+    double PTE = (SPS - STA) / PER;
+    double PPS = SPS / PER;
+    double PA = 100 * ARR / PER;
+
+    cout << "Resultados: " << endl;
+    cout << "Promedio de permanencia en el local: " << PPS << endl;
+    cout << "Promedio de tiempo de espera en el local: " << PTE << endl;
+    cout << "Porcentaje de arrepentidos: " << PA << endl;
 }
 
 float ran(){
