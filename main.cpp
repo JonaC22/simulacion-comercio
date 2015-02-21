@@ -108,7 +108,20 @@ int BuscarPuesto(int* TPS, int N) {
     return 1;
 }
 int arrep(int ns) {
-    //function-stub
+    int r = ran();
+
+    if(ns > 5){
+        return 0;
+    }
+    else if(ns > 3){
+        if(r < 0.2){
+            return 0;
+        }
+        else {
+            return 1;
+        }
+    }
+
     return 0;
 }
 int TA() {
