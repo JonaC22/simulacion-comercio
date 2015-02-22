@@ -104,9 +104,15 @@ int menorTPS(int* TPS, int N) {
     return 1;
 }
 int BuscarPuesto(int* TPS, int N) {
-    //function-stub
-    return 1;
+    int i = 1;
+
+    while(i <= N && TPS[i] != HV){
+        i++;
+    }
+
+    return i;
 }
+
 int arrep(int ns) {
     int r = ran();
 
