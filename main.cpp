@@ -100,9 +100,17 @@ int main()
 
 
 int menorTPS(int* TPS, int N) {
-    //function-stub
-    return 1;
+    int m = 1;
+
+    for(int i = 2; i <= N; i++){
+        if(TPS[i] <= TPS[m]){
+            m = i;
+        }
+    }
+
+    return m;
 }
+
 int BuscarPuesto(int* TPS, int N) {
     int i = 1;
 
