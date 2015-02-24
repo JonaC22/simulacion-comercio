@@ -4,18 +4,20 @@
 
 using namespace std;
 
-int menorTPS(int* TPS, int N);
-int BuscarPuesto(int* TPS, int N);
+int menorTPS(long* TPS, int N);
+int BuscarPuesto(long* TPS, int N);
 int arrep(int ns);
 int TA();
 int IA();
-void calcularImprimirResultados(int SPS, int STA, int PER, int ARR, int T);
+void calcularImprimirResultados(long SPS, long STA, long PER, int ARR, long T);
 float ran();
 
 int main()
 { 
     //Condiciones iniciales
-    int A = 0, ARR = 0, NS = 0, T = 0, i = 0, TF = 0, N = 0, TPLL = 0, STA = 0, SPS= 0, PER = 0, ta = 0;
+    int A = 0, ARR = 0, NS = 0, i = 0, N = 0, ta = 0;
+    long T = 0, TF = 0, TPLL = 0, STA = 0, SPS= 0, PER = 0;
+    long TPS[N];
 
     while (N <= 0){
         cout << "Especificar cantidad de puestos (N > 0)" << endl;
@@ -26,8 +28,6 @@ int main()
         cout << "Especificar tiempo de simulacion (TF > 0)" << endl;
         cin >> TF;
     }
-
-    int TPS[N];
 
     for(int k = 1; k <= N; k++){
         TPS[k] = HV;
@@ -99,7 +99,7 @@ int main()
 }
 
 
-int menorTPS(int* TPS, int N) {
+int menorTPS(long* TPS, int N) {
     int m = 1;
 
     for(int i = 2; i <= N; i++){
@@ -111,7 +111,7 @@ int menorTPS(int* TPS, int N) {
     return m;
 }
 
-int BuscarPuesto(int* TPS, int N) {
+int BuscarPuesto(long* TPS, int N) {
     int i = 1;
 
     while(i <= N && TPS[i] != HV){
@@ -122,13 +122,13 @@ int BuscarPuesto(int* TPS, int N) {
 }
 
 int arrep(int ns) {
-    int r = ran();
+    float r = ran();
 
     if(ns > 5){
         return 0;
     }
     else if(ns > 3){
-        if(r < 0.2){
+        if(r <= 0.2){
             return 0;
         }
         else {
@@ -140,23 +140,23 @@ int arrep(int ns) {
 }
 int TA() {
     float R = ran();
-    return (20 - 15*R);
+    return (30 - 10*R);
 }
 int IA() {
     float R = ran();
-    return (30 - 25*R);
+    return (26 - 25*R);
 }
 
-void calcularImprimirResultados(int SPS, int STA, int PER, int ARR, int T){
+void calcularImprimirResultados(long SPS, long STA, long PER, int ARR, long T){
 
-    double PTE = (SPS - STA) / PER;
-    double PPS = SPS / PER;
-    double PA = 100 * ARR / PER;
+    float PTE = (SPS - STA) / PER;
+    float PPS = SPS / PER;
+    float PA = 100 * ARR / PER;
 
     cout << "Resultados: " << endl;
     cout << "Promedio de permanencia en el local: " << PPS << endl;
     cout << "Promedio de tiempo de espera en el local: " << PTE << endl;
-    cout << "Porcentaje de arrepentidos: " << PA << endl;
+    cout << "Porcentaje de arrepentidos: " << PA << "ARR " << ARR << "PER " << PER << endl;
 }
 
 float ran(){
