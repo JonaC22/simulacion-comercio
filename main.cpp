@@ -9,7 +9,7 @@ int BuscarPuesto(long* TPS, int N);
 int arrep(int ns);
 int TA();
 int IA();
-void calcularImprimirResultados(long SPS, long STA, long PER, int ARR, long T);
+void calcularImprimirResultados(long SPS, long STA, long PER, int ARR, long T, int N, long* STO);
 float ran();
 
 int main()
@@ -17,7 +17,7 @@ int main()
     //Condiciones iniciales
     int A = 0, ARR = 0, NS = 0, i = 0, N = 0, ta = 0;
     long T = 0, TF = 0, TPLL = 0, STA = 0, SPS= 0, PER = 0;
-    long TPS[N];
+    long TPS[N], STO[N], ITO[N];
 
     while (N <= 0){
         cout << "Especificar cantidad de puestos (N > 0)" << endl;
@@ -31,6 +31,8 @@ int main()
 
     for(int k = 1; k <= N; k++){
         TPS[k] = HV;
+        STO[k] = 0;
+        ITO[k] = 0;
     }
 
     cout << "Inicio de simulacion para N igual a " << N << " y tiempo de simulacion TF igual a " << TF <<endl;
@@ -63,6 +65,7 @@ int main()
                     ta = TA();
                     //Busqueda de puerto disponible para atender
                     i = BuscarPuesto(TPS, N);
+                    STO[i] = T - ITO[i];
                     TPS[i] = T + ta;
                     STA += ta;
                 }
@@ -85,6 +88,7 @@ int main()
                 STA += ta;
             }
             else {
+                ITO[i] = T;
                 TPS[i] = HV;
             }
 
@@ -94,7 +98,7 @@ int main()
 
     cout << "Fin de simulacion" << endl;
 
-    calcularImprimirResultados(SPS, STA, PER, ARR, T);
+    calcularImprimirResultados(SPS, STA, PER, ARR, T, N, STO);
 
 }
 
@@ -147,16 +151,21 @@ int IA() {
     return (26 - 25*R);
 }
 
-void calcularImprimirResultados(long SPS, long STA, long PER, int ARR, long T){
+void calcularImprimirResultados(long SPS, long STA, long PER, int ARR, long T, int N, long* STO){
 
     float PTE = (SPS - STA) / PER;
     float PPS = SPS / PER;
     float PA = 100 * ARR / PER;
+    float PTO[N];
 
     cout << "Resultados: " << endl;
     cout << "Promedio de permanencia en el local: " << PPS << endl;
     cout << "Promedio de tiempo de espera en el local: " << PTE << endl;
-    cout << "Porcentaje de arrepentidos: " << PA << "ARR " << ARR << "PER " << PER << endl;
+    cout << "Porcentaje de arrepentidos: " << PA << endl;
+    for(int k = 1; k <= N; k++){
+        PTO[k] = 100 * STO[k] / T;
+        cout << "Porcentaje de tiempo ocioso empleada "<< k << ": " << PTO[k] << endl;
+    }
 }
 
 float ran(){
