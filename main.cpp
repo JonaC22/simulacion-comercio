@@ -1,5 +1,7 @@
 #include <iostream>
 #include <cstdlib>
+#include <stdlib.h>     /* srand, rand */
+#include <time.h>       /* time */
 #define HV 999999999
 
 using namespace std;
@@ -14,10 +16,14 @@ float ran();
 
 int main()
 { 
+
     //Condiciones iniciales
     int A = 0, ARR = 0, NS = 0, i = 0, N = 0, ta = 0;
     long T = 0, TF = 0, TPLL = 0, STA = 0, SPS= 0, PER = 0;
     long TPS[N], STO[N], ITO[N];
+
+    /* initialize random seed: */
+    srand (time(NULL));
 
     while (N <= 0){
         cout << "Especificar cantidad de puestos (N > 0)" << endl;
@@ -38,6 +44,8 @@ int main()
     cout << "Inicio de simulacion para N igual a " << N << " y tiempo de simulacion TF igual a " << TF <<endl;
 
     while(T < TF){
+
+        cout << ran() << endl;
 
         //Busqueda del puesto con menor tiempo de proxima salida
         i = menorTPS(TPS, N);
@@ -144,11 +152,11 @@ int arrep(int ns) {
 }
 int TA() {
     float R = ran();
-    return (30 - 10*R);
+    return (30.0 - 10.0 * R);
 }
 int IA() {
     float R = ran();
-    return (26 - 25*R);
+    return (26.0 - 25.0 * R);
 }
 
 void calcularImprimirResultados(long SPS, long STA, long PER, int ARR, long T, int N, long* STO){
@@ -169,5 +177,5 @@ void calcularImprimirResultados(long SPS, long STA, long PER, int ARR, long T, i
 }
 
 float ran(){
-    return static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+    return ((float)rand()) / ((float)RAND_MAX);
 }
