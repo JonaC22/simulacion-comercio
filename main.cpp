@@ -1,26 +1,32 @@
 #include <iostream>
 #include <cstdlib>
+#include <climits>
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
-#define HV 999999999
+#define HV ULLONG_MAX
 
 using namespace std;
 
-int menorTPS(long* TPS, int N);
-int BuscarPuesto(long* TPS, int N);
-int arrep(int ns);
-int TA();
-int IA();
-void calcularImprimirResultados(long SPS, long STA, long PER, int ARR, long T, int N, long* STO);
+unsigned int menorTPS(unsigned long long* TPS, unsigned int N);
+unsigned int BuscarPuesto(unsigned long long* TPS, unsigned int N);
+unsigned int arrep(unsigned int ns);
+unsigned int TA();
+unsigned int IA();
+void calcularImprimirResultados(unsigned long long SPS,
+                                unsigned long long STA,
+                                unsigned long long PER,
+                                unsigned int ARR,
+                                unsigned long long T,
+                                unsigned int N,
+                                unsigned long long* STO);
 float ran();
 
 int main()
 { 
 
     //Condiciones iniciales
-    int A = 0, ARR = 0, NS = 0, i = 0, N = 0, ta = 0;
-    long T = 0, TF = 0, TPLL = 0, STA = 0, SPS= 0, PER = 0;
-    long TPS[N], STO[N], ITO[N];
+    unsigned int A = 0, ARR = 0, NS = 0, i = 0, N = 0, ta = 0;
+    unsigned long long T = 0, TF = 0, TPLL = 0, STA = 0, SPS= 0, PER = 0;
 
     /* initialize random seed: */
     srand (time(NULL));
@@ -30,12 +36,14 @@ int main()
         cin >> N;
     }
 
+    unsigned long long TPS[N], STO[N], ITO[N];
+
     while (TF <= 0){
         cout << "Especificar tiempo de simulacion (TF > 0)" << endl;
         cin >> TF;
     }
 
-    for(int k = 1; k <= N; k++){
+    for(unsigned int k = 1; k <= N; k++){
         TPS[k] = HV;
         STO[k] = 0;
         ITO[k] = 0;
@@ -44,8 +52,6 @@ int main()
     cout << "Inicio de simulacion para N igual a " << N << " y tiempo de simulacion TF igual a " << TF <<endl;
 
     while(T < TF){
-
-        cout << ran() << endl;
 
         //Busqueda del puesto con menor tiempo de proxima salida
         i = menorTPS(TPS, N);
@@ -111,10 +117,10 @@ int main()
 }
 
 
-int menorTPS(long* TPS, int N) {
+unsigned int menorTPS(unsigned long long* TPS, unsigned int N) {
     int m = 1;
 
-    for(int i = 2; i <= N; i++){
+    for(unsigned int i = 2; i <= N; i++){
         if(TPS[i] <= TPS[m]){
             m = i;
         }
@@ -123,8 +129,8 @@ int menorTPS(long* TPS, int N) {
     return m;
 }
 
-int BuscarPuesto(long* TPS, int N) {
-    int i = 1;
+unsigned int BuscarPuesto(unsigned long long* TPS, unsigned int N) {
+    unsigned int i = 1;
 
     while(i <= N && TPS[i] != HV){
         i++;
@@ -133,7 +139,7 @@ int BuscarPuesto(long* TPS, int N) {
     return i;
 }
 
-int arrep(int ns) {
+unsigned int arrep(unsigned int ns) {
     float r = ran();
 
     if(ns > 5){
@@ -150,16 +156,22 @@ int arrep(int ns) {
 
     return 0;
 }
-int TA() {
+unsigned int TA() {
     float R = ran();
     return (30.0 - 10.0 * R);
 }
-int IA() {
+unsigned int IA() {
     float R = ran();
     return (26.0 - 25.0 * R);
 }
 
-void calcularImprimirResultados(long SPS, long STA, long PER, int ARR, long T, int N, long* STO){
+void calcularImprimirResultados(unsigned long long SPS,
+                                unsigned long long STA,
+                                unsigned long long PER,
+                                unsigned int ARR,
+                                unsigned long long T,
+                                unsigned int N,
+                                unsigned long long* STO){
 
     float PTE = (SPS - STA) / PER;
     float PPS = SPS / PER;
@@ -169,10 +181,10 @@ void calcularImprimirResultados(long SPS, long STA, long PER, int ARR, long T, i
     cout << "Resultados: " << endl;
     cout << "Promedio de permanencia en el local: " << PPS << endl;
     cout << "Promedio de tiempo de espera en el local: " << PTE << endl;
-    cout << "Porcentaje de arrepentidos: " << PA << endl;
-    for(int k = 1; k <= N; k++){
+    cout << "Porcentaje de arrepentidos: " << PA << "%" << endl;
+    for(unsigned int k = 1; k <= N; k++){
         PTO[k] = 100 * STO[k] / T;
-        cout << "Porcentaje de tiempo ocioso empleada "<< k << ": " << PTO[k] << endl;
+        cout << "Porcentaje de tiempo ocioso empleada "<< k << ": " << PTO[k] << "%" << endl;
     }
 }
 
