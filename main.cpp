@@ -158,11 +158,12 @@ unsigned int arrep(unsigned int ns) {
 }
 unsigned int TA() {
     float R = ran();
-    return (30.0 - 10.0 * R);
+    return (30.0 - 15.0 * R);
 }
+
 unsigned int IA() {
     float R = ran();
-    return (26.0 - 25.0 * R);
+    return (25.0 - 15.0 * R);
 }
 
 void calcularImprimirResultados(unsigned long long SPS,
