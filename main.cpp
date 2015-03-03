@@ -18,7 +18,8 @@ void calcularImprimirResultados(unsigned long long SPS,
                                 unsigned int ARR,
                                 unsigned long long T,
                                 unsigned int N,
-                                unsigned long long* STO);
+                                unsigned long long* STO,
+                                unsigned long long* NC);
 float ran();
 
 int main()
@@ -36,7 +37,7 @@ int main()
         cin >> N;
     }
 
-    unsigned long long TPS[N], STO[N], ITO[N];
+    unsigned long long TPS[N], STO[N], ITO[N], NC[N];
 
     while (TF <= 0){
         cout << "Especificar tiempo de simulacion (TF > 0)" << endl;
@@ -47,6 +48,7 @@ int main()
         TPS[k] = HV;
         STO[k] = 0;
         ITO[k] = 0;
+        NC[k] = 0;
     }
 
     cout << "Inicio de simulacion para N igual a " << N << " y tiempo de simulacion TF igual a " << TF <<endl;
@@ -82,6 +84,7 @@ int main()
                     STO[i] = T - ITO[i];
                     TPS[i] = T + ta;
                     STA += ta;
+                    NC[i]++;
                 }
 
                 PER++;
@@ -112,7 +115,7 @@ int main()
 
     cout << "Fin de simulacion" << endl;
 
-    calcularImprimirResultados(SPS, STA, PER, ARR, T, N, STO);
+    calcularImprimirResultados(SPS, STA, PER, ARR, T, N, STO, NC);
 
 }
 
@@ -172,19 +175,31 @@ void calcularImprimirResultados(unsigned long long SPS,
                                 unsigned int ARR,
                                 unsigned long long T,
                                 unsigned int N,
-                                unsigned long long* STO){
+                                unsigned long long* STO,
+                                unsigned long long* NC){
 
-    float PTE = (SPS - STA) / PER;
-    float PPS = SPS / PER;
-    float PA = 100 * ARR / PER;
+    float PTE;
+    if(SPS - STA > 0) PTE = (float) (SPS - STA) / (float) PER;
+    else  PTE = 0;
+    float PPS = (float) SPS / (float) PER;
+    float PA = 100 * (float) ARR / (float) PER;
     float PTO[N];
 
     cout << "Resultados: " << endl;
+    cout << "SPS: " << SPS << endl;
+    cout << "STA: " << STA << endl;
+    cout << "ARR: " << ARR << endl;
+    cout << "PER: " << PER << endl;
     cout << "Promedio de permanencia en el local: " << PPS << endl;
     cout << "Promedio de tiempo de espera en el local: " << PTE << endl;
     cout << "Porcentaje de arrepentidos: " << PA << "%" << endl;
     for(unsigned int k = 1; k <= N; k++){
-        PTO[k] = 100 * STO[k] / T;
+        if(NC[k] == 0){
+            PTO[k] = 100;
+        }
+        else{
+            PTO[k] = 100 * (float) STO[k] / (float) T;
+        }
         cout << "Porcentaje de tiempo ocioso empleada "<< k << ": " << PTO[k] << "%" << endl;
     }
 }
