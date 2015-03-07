@@ -12,6 +12,7 @@ unsigned int BuscarPuesto(unsigned long long* TPS, unsigned int N);
 unsigned int arrep(unsigned int ns);
 unsigned int TA();
 unsigned int IA();
+unsigned int ganancia();
 void calcularImprimirResultados(unsigned long long SPS,
                                 unsigned long long STA,
                                 unsigned long long PER,
@@ -19,7 +20,8 @@ void calcularImprimirResultados(unsigned long long SPS,
                                 unsigned long long T,
                                 unsigned int N,
                                 unsigned long long* STO,
-                                unsigned long long* NC);
+                                unsigned long long* NC,
+                                unsigned long long GAN);
 float ran();
 
 int main()
@@ -27,7 +29,7 @@ int main()
 
     //Condiciones iniciales
     unsigned int A = 0, ARR = 0, NS = 0, i = 0, N = 0, ta = 0;
-    unsigned long long T = 0, TF = 0, TPLL = 0, STA = 0, SPS= 0, PER = 0;
+    unsigned long long GAN = 0, T = 0, TF = 0, TPLL = 0, STA = 0, SPS= 0, PER = 0;
 
     /* initialize random seed: */
     srand (time(NULL));
@@ -98,6 +100,7 @@ int main()
             T = TPS[i];
 
             NS--;
+            GAN += ganancia();
 
             if(NS >= N){
                 ta = TA();
@@ -115,7 +118,7 @@ int main()
 
     cout << "Fin de simulacion" << endl;
 
-    calcularImprimirResultados(SPS, STA, PER, ARR, T, N, STO, NC);
+    calcularImprimirResultados(SPS, STA, PER, ARR, T, N, STO, NC, GAN);
 
 }
 
@@ -169,6 +172,11 @@ unsigned int IA() {
     return (25.0 - 15.0 * R);
 }
 
+unsigned int ganancia() {
+    float R = ran();
+    return (1000.0 - 950.0 * R);
+}
+
 void calcularImprimirResultados(unsigned long long SPS,
                                 unsigned long long STA,
                                 unsigned long long PER,
@@ -176,7 +184,8 @@ void calcularImprimirResultados(unsigned long long SPS,
                                 unsigned long long T,
                                 unsigned int N,
                                 unsigned long long* STO,
-                                unsigned long long* NC){
+                                unsigned long long* NC,
+                                unsigned long long GAN){
 
     float PTE;
     if(SPS - STA > 0) PTE = (float) (SPS - STA) / (float) PER;
@@ -186,10 +195,7 @@ void calcularImprimirResultados(unsigned long long SPS,
     float PTO[N];
 
     cout << "Resultados: " << endl;
-    cout << "SPS: " << SPS << endl;
-    cout << "STA: " << STA << endl;
-    cout << "ARR: " << ARR << endl;
-    cout << "PER: " << PER << endl;
+    cout << "Ganancia Total: $" << GAN << endl;
     cout << "Promedio de permanencia en el local: " << PPS << endl;
     cout << "Promedio de tiempo de espera en el local: " << PTE << endl;
     cout << "Porcentaje de arrepentidos: " << PA << "%" << endl;
